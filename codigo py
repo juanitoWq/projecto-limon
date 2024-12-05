@@ -1,0 +1,73 @@
+import cv2
+import numpy as np
+
+def determinar_estado(color):
+    """
+    Determina el estado del limón según el color promedio detectado.
+    """
+    h, s, v = color  # Hue, Saturation, Value en espacio HSV
+
+    if 20 <= h <= 30 and s > 50:  # Amarillo
+        return "Maduro (Amarillo)"
+    elif h < 20 or (h <= 30 and s <= 50):  # Café o marrón
+        return "Podrido (Casi café)"
+    elif 35 <= h <= 85:  # Verde
+        return "Inmaduro (Verde)"
+    else:
+        return "Estado no identificado"
+
+# Captura desde una cámara o un archivo de imagen
+# Cambia '0' por una ruta de imagen para usar una imagen guardada
+cap = cv2.VideoCapture(0)
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        print("Error al capturar la imagen.")
+        break
+
+    # Convertir a espacio de color HSV
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    # Rango para detectar el color del limón
+    lower_bound = np.array([20, 50, 50])  # Límite inferior (HSV)
+    upper_bound = np.array([85, 255, 255])  # Límite superior (HSV)
+    
+    # Máscara para segmentar el limón
+    mask = cv2.inRange(hsv, lower_bound, upper_bound)
+
+    # Realizar operaciones morfológicas para mejorar la máscara
+    kernel = np.ones((5, 5), np.uint8)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+
+    # Detectar contornos del objeto segmentado
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    if contours:
+        # Tomar el contorno más grande
+        c = max(contours, key=cv2.contourArea)
+        if cv2.contourArea(c) > 500:  # Filtro por tamaño
+            # Dibujar el contorno en la imagen original
+            x, y, w, h = cv2.boundingRect(c)
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+            # Extraer la región del limón
+            roi = hsv[y:y+h, x:x+w]
+            # Calcular el color promedio
+            mean_color = cv2.mean(roi)[:3]  # Promedio en espacio HSV
+
+            # Determinar el estado del limón
+            estado = determinar_estado(mean_color)
+            cv2.putText(frame, estado, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+
+    # Mostrar los resultados
+    cv2.imshow("Detección de Limón", frame)
+    cv2.imshow("Máscara", mask)
+
+    # Salir al presionar 'q'
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
