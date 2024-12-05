@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estado de maduración de un limon </title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section {
+            background-color: white;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .integrantes {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .integrante {
+            text-align: center;
+            margin: 10px;
+        }
+        .integrante img {
+            max-width: 200px;
+            border-radius: 50%;
+        }
+        .proyecto-fotos {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .proyecto-fotos img {
+            max-width: 300px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Estado de maduración de una fruta</h1>
+        <h2>Materia: Programación Superior[IMT-231]</h2>
+    </div>
+
+    <div class="section">
+        <h3>Información General</h3>
+        <p><strong>Docente:</strong> [MSc. Sergio Hernán Valenzuela Cámara]</p>
+        <p><strong>Lugar:</strong> Universidad Catolica Boliviana ¨San Pablo¨ sede Cochabamba</p>
+        <p><strong>Fecha:</strong> [5/12/2024]</p>
+    </div>
+
+    <div class="section">
+        <h3>Integrantes del Grupo</h3>
+        <div class="integrantes">
+            <div class="integrante">
+                <img src="{{ url_for('static', filename='integrante1.jpg')}}" width='300' height='300' alt="integrante1.jpg">
+                <p>Jheyson Wilder Cuevas Chugar</p>
+            </div>
+            <div class="integrante">
+                <img src="{{ url_for('static', filename='integrante2.jpg')}}" width='300' height='300' alt="Integrante2.jpg">
+                <p>Gonzalo Chugar Mancilla</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Descripción del Proyecto</h3>
+        <p>[El proyecto para detectar el estado de maduración de un limón combina conocimientos de visión por computadora, procesamiento de imágenes, e inteligencia artificial para clasificar limones según su estado de maduración (por ejemplo, verde, parcialmente maduro o completamente maduro). Esta clasificación puede aplicarse en industrias agrícolas para mejorar la calidad y eficiencia en la recolección y distribución de frutas.
+
+      <h3>  1. Objetivo General   </h3>
+       <p>  Diseñar un sistema automatizado que analice imágenes de limones y determine su estado de maduración utilizando técnicas de procesamiento de imágenes y aprendizaje automático. <p>
+
+
+
+      <h3> 2. Etapas del Proyecto </h3>
+
+    <p>  2.1. Recolección de Datos**
+   - **Imágenes de limones**: Capturar fotografías de limones en diferentes estados de maduración utilizando una cámara de alta resolución. Las imágenes deben tomarse en condiciones controladas de iluminación y fondo homogéneo para reducir el ruido en el análisis.
+   - **Etiquetado**: Asignar etiquetas a las imágenes según los estados de maduración: *verde*, *parcialmente maduro*, y *maduro*.<p>
+
+     <p> 2.2. Preprocesamiento de Imágenes**
+   - **Corrección de iluminación**: Normalizar las imágenes para uniformar los niveles de brillo y contraste.
+   - **Segmentación**: Separar los limones del fondo usando técnicas como:
+     - Umbralización basada en color (HSV o LAB, considerando el verde y amarillo característicos del limón).
+     - Detección de bordes con algoritmos como Canny o Sobel.
+   - **Ajuste de escala**: Redimensionar todas las imágenes a un tamaño estándar para reducir la complejidad del modelo.<p>
+    <p> 2.3. Análisis de Color y Textura**
+   - **Extracción de características de color**:
+     - Calcular histogramas de color en el espacio HSV para analizar los valores de *tono* (hue) característicos de cada estado de maduración.
+     - Identificar rangos de color predominantes:
+       - Verde: valores de tono bajos.
+       - Amarillo: valores de tono medios.
+   - Textura**: Usar métodos como la matriz de co-ocurrencia de niveles de gris (GLCM) para identificar cambios en la superficie del limón según su madurez.
+<p>
+<p>
+    2.4. Clasificación**
+   - **Enfoque basado en aprendizaje automático**: Entrenar un modelo supervisado como:
+     - Máquina de soporte vectorial (SVM).
+     - Red neuronal convolucional (CNN) para mayor precisión y escalabilidad.
+   - **Entrenamiento**:
+     - Dividir los datos en conjunto de entrenamiento, validación y prueba (70%-20%-10%).
+     - Evaluar métricas como precisión, sensibilidad y F1-score.
+   - **Implementación en hardware**: Desplegar el modelo en un microcontrolador con capacidad de procesamiento (ej. Raspberry Pi) para una detección en tiempo real.
+<p>
+<p> 2.5. Interfaz del Sistema**
+   - **Software de análisis**: Diseñar una interfaz gráfica que permita:
+     - Capturar imágenes en tiempo real desde una cámara conectada al sistema.
+     - Mostrar el estado de maduración detectado junto con un porcentaje de confianza del modelo.
+   - **Integración hardware**:
+     - Sensor de cámara: Puede utilizarse una cámara de tipo Pi Camera o una webcam compatible con Raspberry Pi.
+     - Opcional: Añadir iluminación controlada (LEDs) para mejorar la calidad de las imágenes en entornos variables.
+
+<p>
+
+<h3>3. Tecnologías y Herramientas</h3>
+<p>
+   - **Hardware**:
+     - Raspberry Pi (modelo 5 o superior).
+     - Cámara de alta definición (Pi Camera o webcam USB).
+   - **Software**:
+     - Lenguajes de programación: Python (bibliotecas como OpenCV, TensorFlow/Keras, scikit-learn).
+     - Sistemas operativos: Raspberry Pi OS o Ubuntu.
+   - **Bibliotecas adicionales**:
+     - OpenCV: Procesamiento de imágenes.
+     - NumPy y pandas: Manejo de datos.
+     - Matplotlib y Seaborn: Visualización.
+     - TensorFlow o PyTorch: Creación y entrenamiento de redes neuronales.
+<p>
+
+
+<h3> 4. Resultados Esperados </h3>
+<p>
+     - Clasificar los limones con una precisión superior al 90% en el conjunto de prueba.
+   - Optimizar el tiempo de procesamiento para garantizar una detección casi en tiempo real (menos de 1 segundo por imagen).
+   - Crear un sistema robusto y portátil para su uso en campo o en procesos de selección industrial.
+
+<p>
+
+ <h3>5. Aplicaciones </h3>
+ <p>
+   - Clasificación en tiempo real durante la cosecha de limones.
+   - Integración en líneas de producción para automatizar el control de calidad.
+   - Análisis y predicción de la madurez en otras frutas y vegetales.
+<p>
+]</p>
+
+        <div class="proyecto-fotos">
+            <img src="/api/placeholder/300/300" alt="Foto Proyecto 1">
+
+  <img src="{{ url_for('static', filename='es.jpg')}}" width='300' height='300' alt="es.jpg">
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h11>Materiales y Recursos</h11>
+        <ul>
+            <li>Material 1</li>
+            <img src="{{ url_for('static', filename='ras.jpg')}}" width='300' height='300' alt="ras.jpg">
+                <p>raspberry pi 5</p>
+            <li>Material 2</li>
+             <img src="{{ url_for('static', filename='zx.jpg')}}" width='300' height='300' alt="zx.jpg">
+                <p>camara web</p>
+            <li>Recurso 1</li>
+                <img src="{{ url_for('static', filename='p.jpg')}}" width='300' height='300' alt="p.jpg">
+                <p>plataforma raspberry pi web para coneccion de imagen</p>
+            <li>Recurso 2</li>
+              <img src="{{ url_for('static', filename='w.jpg')}}" width='300' height='300' alt="w.jpg">
+                <p>lenguaje de programación</p>
+        </ul>
+    </div>
+</body>
+</html>
